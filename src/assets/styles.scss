@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,600;1,200;1,600&display=swap');
+
+:root {
+  --white: #fff;
+  --black: #090415;
+  --font-sans-serif: 'Nunito',system-ui,-apple-system,"Segoe UI","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  --font-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+ }
+
+ *,
+ :after,
+ :before {
+  box-sizing:border-box
+ }
+
+ body {
+  margin: 0;
+  color: var(--white);
+  background-color: var(--black);
+  font-family: var(--font-sans-serif);
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0,0,0,0)
+ }
+
+ h1,
+ h2,
+ h3,
+ h4,
+ h5,
+ h6,
+ p,
+ ul,
+ ol {
+  margin-top: 0; 
+  margin-bottom: 0;
+  font-weight: 200;
+ }
+
+ h1 {
+   font-size: 3rem;
+
+   span {
+     padding: 0 .5rem;
+   }
+
+   small {
+     font-size: 2rem;
+   }
+ }
