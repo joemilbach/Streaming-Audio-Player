@@ -71,3 +71,8 @@ jspm_packages/
 # misc
 .DS_Store
 config.json
+
+
+# Other
+.DS_Store
+.eslintcache
