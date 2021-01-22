@@ -7,14 +7,12 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
-    "feather-icons": "^4.28.0",
     "node-sass": "4.14.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-redux": "^7.2.2",
+    "react-feather": "^2.0.9",
     "react-scripts": "4.0.1",
-    "react-spotify-api": "^3.0.0",
-    "redux-thunk": "^2.3.0",
+    "react-spotify-web-playback": "^0.8.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -40,8 +38,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "redux-logger": "^3.0.6"
   }
 }
