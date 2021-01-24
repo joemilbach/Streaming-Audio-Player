@@ -26,6 +26,13 @@ const App = () => {
         ...prevState,
         token: tokenResponse.data.access_token
       }));
+    })
+    .catch(err => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request)
+      }
     });
   }, [spotify.ClientId, spotify.ClientSecret]);
 
@@ -56,10 +63,7 @@ const App = () => {
     reset();
   }
 
-  const searchGet = () => {
-    const type = 'artist';
-    const limit = 12;
-    const market = 'US';
+  const searchGet = (type = 'artist', limit = 12, market = 'US') => {
     const query = searchInput[0].query;
 
     setSearch(prevState => ({
@@ -67,12 +71,12 @@ const App = () => {
       searchValue: query
     }));
 
-   axios(`https://api.spotify.com/v1/search?q=${encodeURI(query)}&type=${type}&market=${market}&limit=${limit}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type' : 'application/json',
-      'Authorization' : 'Bearer ' + auth.token
-    } 
+    axios(`https://api.spotify.com/v1/search?q=${encodeURI(query)}&type=${type}&market=${market}&limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type' : 'application/json',
+        'Authorization' : 'Bearer ' + auth.token
+      } 
     })
     .then(searchResponse => {
       setSearch(prevState => ({
@@ -111,14 +115,10 @@ const App = () => {
     }
   }, [search.searchResultsList, auth]);
 
-  const initPlayer = id => {
-    console.log(id);
-  }
-
   return (
     <>
       <Header search={searchInput} submit={searchGet} query={searchQuery} results={albums} reset={search.searchValue} />
-      <AlbumCovers covers={albums} artist={search.searchResultsList[0]} play={initPlayer} clear={searchClear} />
+      <AlbumCovers covers={albums} artist={search.searchResultsList[0]} clear={searchClear} />
     </>
   );
 }

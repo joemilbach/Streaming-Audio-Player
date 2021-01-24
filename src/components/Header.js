@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 const Header = props => {
+  const [searchActive, setSearchActive] = useState(false);
   const searchInput = useRef();
   const searchValue = val => props.query(val.target.value);
 
@@ -8,7 +9,14 @@ const Header = props => {
     e.preventDefault();
     props.submit();
     searchInput.current.blur();
-    searchInput.current.value = '';
+    setSearchActive(true);
+  }
+
+  const searchClear = () => {
+    searchInput.current.value = "";
+    searchInput.current.focus();
+    props.query("");
+    setSearchActive(false);
   }
 
   useEffect(() => {
@@ -16,15 +24,14 @@ const Header = props => {
   }, [props.reset]);
 
   return (
-    <header className={props.results.length > 0 ? 'active' : ''}>
+    <header className={searchActive ? "active" : ""}>
       <h1><span>[</span><small>JM</small><span>]</span></h1>
       <form className="form" onSubmit={(e) => searchSubmit(e)}>
-      { props.search.map((idx) =>
-        <div key={idx} className="input-group">
+        <div className="input-group">
           <input ref={searchInput} type="text" className="form-control" value={props.search.value} placeholder="What band are you looking for?" onChange={(val) => searchValue(val)} />
           <button className="btn" type="submit">Search</button>
-        </div> 
-      )}
+        </div>
+        <button className={props.reset !== "" ? "btn btn-icn icn-x"  : "hidden"} type="button" onClick={searchClear}></button>
       </form>
     </header> 
   );
