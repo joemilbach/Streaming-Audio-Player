@@ -11,6 +11,7 @@ const App = () => {
   const [auth, setAuth] = useState({code: '', state: '', token: ''});
   const [search, setSearch] = useState({searchValue: '', searchResultsList: []});
   const [albums, setAlbums] = useState([]);
+  const [player, setPlayer] = useState({artist: "", album: "", uri: ""});
 
   useEffect(() => {
     axios('https://accounts.spotify.com/api/token', {
@@ -51,6 +52,7 @@ const App = () => {
   const reset = () => {
     setSearch({searchValue: '', searchResultsList: []});
     setAlbums([]);
+    setPlayer({artist: "", album: "", uri: ""});
   }
 
   const searchQuery = val => {
@@ -59,7 +61,7 @@ const App = () => {
   }
 
   const searchClear = () => {
-    setSearchInput([{ query: '' }]);
+    setSearchInput([{query: ''}]);
     reset();
   }
 
@@ -118,7 +120,7 @@ const App = () => {
   return (
     <>
       <Header search={searchInput} submit={searchGet} query={searchQuery} results={albums} reset={search.searchValue} />
-      <AlbumCovers covers={albums} artist={search.searchResultsList[0]} clear={searchClear} />
+      <AlbumCovers covers={albums} artist={search.searchResultsList[0]} clear={searchClear} selected={setPlayer} src={player} />
     </>
   );
 }
