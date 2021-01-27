@@ -31,7 +31,7 @@ const Header = props => {
           <input ref={searchInput} type="text" className="form-control" value={props.search.value} placeholder="What band are you looking for?" onChange={(val) => searchValue(val)} />
           <button className="btn" type="submit">Search</button>
         </div>
-        <button className={props.reset !== "" ? "btn btn-icn icn-x"  : "hidden"} type="button" onClick={searchClear}></button>
+        <button className={props.reset !== "" ? "btn btn-icn icn-x" : "hidden"} type="button" onClick={searchClear}></button>
       </form>
     </header> 
   );
