@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import AlbumCovers from "./components/AlbumCovers";
-import { Credentials } from "./Credentials";
 import axios from "axios";
 
 const App = () => {
-  const spotify = Credentials(); 
-
   const [searchInput, setSearchInput] = useState([{query: ""}]);
   const [auth, setAuth] = useState({token: ""});
   const [search, setSearch] = useState({searchValue: "", searchResultsList: []});
@@ -17,7 +14,7 @@ const App = () => {
     axios("https://accounts.spotify.com/api/token", {
       headers: {
         "Content-Type" : "application/x-www-form-urlencoded",
-        "Authorization" : "Basic " + btoa(spotify.ClientId + ":" + spotify.ClientSecret)      
+        "Authorization" : "Basic " + btoa(process.env.REACT_APP_Client_ID + ":" + REACT_APP_Client_Secret)      
       },
       data: "grant_type=client_credentials",
       method: "POST"
@@ -35,9 +32,7 @@ const App = () => {
         console.log(err.request)
       }
     });
-  }, [spotify.ClientId, spotify.ClientSecret]);
 
-  useEffect(() => {
     if(localStorage.getItem("searchInput") !== null && localStorage.getItem("search") !== null) {
       setSearchInput(JSON.parse(localStorage.getItem("searchInput")));
       setSearch(JSON.parse(localStorage.getItem("search")));
