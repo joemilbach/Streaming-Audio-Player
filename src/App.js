@@ -7,20 +7,20 @@ import axios from "axios";
 const App = () => {
   const spotify = Credentials(); 
 
-  const [searchInput, setSearchInput] = useState([{query: ''}]);
-  const [auth, setAuth] = useState({code: '', state: '', token: ''});
-  const [search, setSearch] = useState({searchValue: '', searchResultsList: []});
+  const [searchInput, setSearchInput] = useState([{query: ""}]);
+  const [auth, setAuth] = useState({token: ""});
+  const [search, setSearch] = useState({searchValue: "", searchResultsList: []});
   const [albums, setAlbums] = useState([]);
   const [player, setPlayer] = useState({artist: "", album: "", uri: ""});
 
   useEffect(() => {
-    axios('https://accounts.spotify.com/api/token', {
+    axios("https://accounts.spotify.com/api/token", {
       headers: {
-        'Content-Type' : 'application/x-www-form-urlencoded',
-        'Authorization' : 'Basic ' + btoa(spotify.ClientId + ':' + spotify.ClientSecret)      
+        "Content-Type" : "application/x-www-form-urlencoded",
+        "Authorization" : "Basic " + btoa(spotify.ClientId + ":" + spotify.ClientSecret)      
       },
-      data: 'grant_type=client_credentials',
-      method: 'POST'
+      data: "grant_type=client_credentials",
+      method: "POST"
     })
     .then(tokenResponse => {
       setAuth(prevState => ({
@@ -38,21 +38,18 @@ const App = () => {
   }, [spotify.ClientId, spotify.ClientSecret]);
 
   useEffect(() => {
-    const spotifyQueryString = window.location.search;
-    if(spotifyQueryString) {
-      const urlParams = new URLSearchParams(spotifyQueryString);
-      setAuth(prevState => ({
-        ...prevState,
-        code: urlParams.get("code"),
-        state: urlParams.get("state")
-      }));
+    if(localStorage.getItem("searchInput") !== null && localStorage.getItem("search") !== null) {
+      setSearchInput(JSON.parse(localStorage.getItem("searchInput")));
+      setSearch(JSON.parse(localStorage.getItem("search")));
     }
   }, []);
   
   const reset = () => {
-    setSearch({searchValue: '', searchResultsList: []});
+    setSearch({searchValue: "", searchResultsList: []});
     setAlbums([]);
     setPlayer({artist: "", album: "", uri: ""});
+    localStorage.setItem("searchInput", JSON.stringify([{query: ""}]));
+    localStorage.setItem("search", JSON.stringify({searchValue: "", searchResultsList: []}));
   }
 
   const searchQuery = val => {
@@ -61,11 +58,11 @@ const App = () => {
   }
 
   const searchClear = () => {
-    setSearchInput([{query: ''}]);
+    setSearchInput([{query: ""}]);
     reset();
   }
 
-  const searchGet = (type = 'artist', limit = 12, market = 'US') => {
+  const searchGet = (type = "artist", limit = 12, market = "US") => {
     const query = searchInput[0].query;
 
     setSearch(prevState => ({
@@ -74,10 +71,10 @@ const App = () => {
     }));
 
     axios(`https://api.spotify.com/v1/search?q=${encodeURI(query)}&type=${type}&market=${market}&limit=${limit}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type' : 'application/json',
-        'Authorization' : 'Bearer ' + auth.token
+        "Content-Type" : "application/json",
+        "Authorization" : "Bearer " + auth.token
       } 
     })
     .then(searchResponse => {
@@ -98,12 +95,15 @@ const App = () => {
   useEffect(() => {
     if(search.searchResultsList.length > 0) {
       const artistID = search.searchResultsList[0].id;
+
+      localStorage.setItem("searchInput", JSON.stringify(searchInput));
+      localStorage.setItem("search", JSON.stringify(search));
   
       axios(`https://api.spotify.com/v1/artists/${artistID}/albums`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Bearer ' + auth.token
+          "Content-Type" : "application/json",
+          "Authorization" : "Bearer " + auth.token
         }
       })
       .then(albumResponse => setAlbums(albumResponse.data.items))
@@ -113,9 +113,9 @@ const App = () => {
         } else if (err.request) {
           console.log(err.request)
         }
-      });
+      }); 
     }
-  }, [search.searchResultsList, auth]);
+  }, [search.searchResultsList, search, searchInput, auth]);
 
   return (
     <>
