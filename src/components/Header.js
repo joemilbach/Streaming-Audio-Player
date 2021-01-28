@@ -23,14 +23,12 @@ const Header = props => {
     props.reset === "" ? searchInput.current.focus() : searchInput.current.blur();
   }, [props.reset]);
 
-  console.log(JSON.parse(localStorage.getItem("searchInput"))[0].query);
-
   return (
     <header className={searchActive ? "active" : ""}>
       <h1><span>[</span><small>JM</small><span>]</span></h1>
       <form className="form" onSubmit={(e) => searchSubmit(e)}>
         <div className="input-group">
-          <input ref={searchInput} type="text" className="form-control" value={props.search[0].query} placeholder="What band are you looking for?" onChange={(val) => searchValue(val)} />
+          <input ref={searchInput} type="text" className="form-control" value={props.search[0].query} placeholder="Band Name?" onChange={(val) => searchValue(val)} />
           <button className="btn" type="submit">Search</button>
         </div>
         <button className={props.reset !== "" ? "btn btn-icn icn-x" : "hidden"} type="button" onClick={searchClear}></button>
