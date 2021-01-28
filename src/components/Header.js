@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 
 const Header = props => {
-  const [searchActive, setSearchActive] = useState(JSON.parse(localStorage.getItem("searchInput")) !== null ? true : false);
+  const [searchActive, setSearchActive] = useState(JSON.parse(localStorage.getItem("searchInput")) !== null && JSON.parse(localStorage.getItem("searchInput"))[0].query !== "" ? true : false);
   const searchInput = useRef();
   const searchValue = val => props.query(val.target.value);
 
@@ -22,6 +22,8 @@ const Header = props => {
   useEffect(() => {
     props.reset === "" ? searchInput.current.focus() : searchInput.current.blur();
   }, [props.reset]);
+
+  console.log(JSON.parse(localStorage.getItem("searchInput"))[0].query);
 
   return (
     <header className={searchActive ? "active" : ""}>
