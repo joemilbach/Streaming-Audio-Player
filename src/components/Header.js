@@ -28,7 +28,7 @@ const Header = props => {
       <h1><span>[</span><small>JM</small><span>]</span></h1>
       <form className="form" onSubmit={(e) => searchSubmit(e)}>
         <div className="input-group">
-          <input ref={searchInput} type="text" className="form-control" value={props.search[0].query} placeholder="Band Name?" onChange={(val) => searchValue(val)} />
+          <input ref={searchInput} type="text" className="form-control" value={props.search[0].query} placeholder="Search for band..." onChange={(val) => searchValue(val)} />
           <button className="btn" type="submit">Search</button>
         </div>
         <button className={props.reset !== "" ? "btn btn-icn icn-x" : "hidden"} type="button" onClick={searchClear}></button>
